@@ -3,7 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-
+const axios = require("axios")
 
 
 
@@ -23,44 +23,43 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-// public_users.get('/',function (req, res) {
-//     res.send(JSON.stringify(books,null,4));
-// });
+public_users.get('/',function (req, res) {
+    new Promise((resolve, reject) => {
+        res.send(JSON.stringify(books,null,4));
+    })
+});
 
-get_all_promise = new Promise((resolve, reject) => {
-    try{
-        resolve(public_users.get('/', function (req,res) {
-            res.send(JSON.stringify(books,null,4));
-        }))
-    } catch(err){
-        reject(err)
-    }
-})
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  const isbn = req.params.isbn;
-  res.send(books[isbn])
+    new Promise((resolve, reject) => {
+        const isbn = req.params.isbn;
+        res.send(books[isbn])
+    })
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-  const author = req.params.author;
-  for(let i = 1; i<=10; i++){
-      if(author == books[i].author){
-        res.send(books[i])
-      }
-  }
+    new Promise((resolve, reject) => {    
+        const author = req.params.author;
+        for(let i = 1; i<=10; i++){
+            if(author == books[i].author){
+                res.send(books[i])
+            }
+        }
+    })
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-    const title = req.params.title;
-  for(let i = 1; i<=10; i++){
-      if(title == books[i].title){
-        res.send(books[i])
-      }
-  }
+    new Promise((resolve, reject) => {    
+        const title = req.params.title;
+        for(let i = 1; i<=10; i++){
+            if(title == books[i].title){
+                res.send(books[i])
+            }
+        }
+    })
 });
 
 //  Get book review
