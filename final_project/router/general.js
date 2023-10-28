@@ -23,12 +23,13 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-    new Promise((resolve, reject) => {
-        res.send(JSON.stringify(books,null,4));
-    })
-});
 
+    
+
+axios.get('http://webcode.me').then(resp => {
+    res.send(JSON.stringify(books,null,4));
+    
+});
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
